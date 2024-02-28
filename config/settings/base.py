@@ -35,7 +35,7 @@ if READ_DOT_ENV_FILE:
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
-USE_X_FORWARDED_PORT = env.bool('DJANGO_USE_X_FORWARDED_PORT', default=False)
+USE_X_FORWARDED_HOST = env.bool('DJANGO_USE_X_FORWARDED_HOST', default=False)
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
