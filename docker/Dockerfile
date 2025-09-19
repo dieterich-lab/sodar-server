@@ -1,11 +1,11 @@
 FROM python:3.11-bookworm
 
-LABEL org.opencontainers.image.source=https://github.com/bihealth/sodar-server
-LABEL org.opencontainers.image.authors="Mikko Nieminen <mikko.nieminen@bih-charite.de>"
-
-ARG app_git_url=https://github.com/bihealth/sodar-server.git
-ARG app_git_tag
-ARG app_git_depth=1
+# LABEL org.opencontainers.image.source=https://github.com/bihealth/sodar-server
+# LABEL org.opencontainers.image.authors="Mikko Nieminen <mikko.nieminen@bih-charite.de>"
+#
+# ARG app_git_url=https://github.com/bihealth/sodar-server.git
+# ARG app_git_tag
+# ARG app_git_depth=1
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CUSTOM_STATIC_DIR=/usr/src/app/local-static
@@ -16,7 +16,8 @@ RUN chmod +x /usr/local/bin/wait
 
 # Copy source code into Docker image
 RUN mkdir -p /usr/src
-RUN git clone --depth $app_git_depth --branch $app_git_tag $app_git_url /usr/src/app
+# RUN git clone --depth $app_git_depth --branch $app_git_tag $app_git_url /usr/src/app
+ADD . /usr/src/app
 
 # Install system dependencies
 RUN apt-get update && \
@@ -76,7 +77,8 @@ RUN cd /usr/src/app && \
     python manage.py collectstatic --no-input
 
 # Define the entry point
-COPY docker-entrypoint.sh /usr/local/bin
+# COPY docker-entrypoint.sh /usr/local/bin
+COPY docker/docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
     ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
